@@ -2,6 +2,7 @@ package br.com.dmaiolli.billreminder;
 
 import br.com.dmaiolli.billreminder.strategies.command.DiscordCommandEnum;
 import br.com.dmaiolli.billreminder.strategies.command.DiscordCommandStrategy;
+import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -25,7 +26,9 @@ public class MessageListener extends ListenerAdapter {
     private DiscordCommandStrategy discordCommandStrategy;
 
     public static void main(String[] args) throws LoginException, InterruptedException {
-        JDABuilder jdaBuilder = JDABuilder.createDefault("OTUyMjI2NTAyNjk3NzA1NTE0.Yiy8CQ.uE8ogrpSmjYMo99NDHSnWWgicac");
+
+        Dotenv dotenv = Dotenv.load();
+        JDABuilder jdaBuilder = JDABuilder.createDefault(dotenv.get("DISCORD_BOT_KEY"));
 
         // Disable parts of the cache
         jdaBuilder.disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
