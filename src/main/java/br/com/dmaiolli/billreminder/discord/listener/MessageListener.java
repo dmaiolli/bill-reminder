@@ -1,53 +1,23 @@
-package br.com.dmaiolli.billreminder;
+package br.com.dmaiolli.billreminder.discord.listener;
 
-import br.com.dmaiolli.billreminder.strategies.command.DiscordCommandEnum;
-import br.com.dmaiolli.billreminder.strategies.command.DiscordCommandStrategy;
-import io.github.cdimascio.dotenv.Dotenv;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Channel;
-import net.dv8tion.jda.api.entities.Emote;
+import br.com.dmaiolli.billreminder.service.BillService;
+import br.com.dmaiolli.billreminder.strategy.command.DiscordCommandEnum;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.utils.Compression;
-import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import javax.security.auth.login.LoginException;
-import java.util.List;
 import java.util.Objects;
 
+@Component
 public class MessageListener extends ListenerAdapter {
 
-    private DiscordCommandStrategy discordCommandStrategy;
-
-    public static void main(String[] args) throws LoginException, InterruptedException {
-
-        Dotenv dotenv = Dotenv.load();
-        JDABuilder jdaBuilder = JDABuilder.createDefault(dotenv.get("DISCORD_BOT_KEY"));
-
-        // Disable parts of the cache
-        jdaBuilder.disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
-        // Enable the bulk delete event
-        jdaBuilder.setBulkDeleteSplittingEnabled(false);
-        // Disable compression (not recommended)
-        jdaBuilder.setCompression(Compression.NONE);
-        // Set activity (like "playing Something")
-        jdaBuilder.setActivity(Activity.watching("TV"));
-
-        JDA jda = jdaBuilder.build();
-//        jda.addEventListener(new MessageListener());
-        jda.awaitReady();
-
-        List<TextChannel> channels = jda.getTextChannelsByName("a", true);
-        for(TextChannel channel : channels) {
-            sendMessage("Oi", channel);
-        }
-    }
+    @Autowired
+    private BillService billService;
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {

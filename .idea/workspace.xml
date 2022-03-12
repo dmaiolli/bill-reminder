@@ -4,8 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78878b95-67bf-451e-b79c-57b60534a4ce" name="Changes" comment="">
+    <list default="true" id="78878b95-67bf-451e-b79c-57b60534a4ce" name="Changes" comment="Refactoring and applying strategy">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/BillReminderApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/BillReminderApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/discord/listener/MessageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/discord/listener/MessageListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/exception/StrategyNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/exception/StrategyNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/repository/BillRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/repository/BillRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/service/BillService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/service/BillService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/strategy/command/DiscordCommandEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/strategy/command/DiscordCommandEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/strategy/command/DiscordCommandStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/strategy/command/DiscordCommandStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/strategy/command/impl/ListAllBillsNotPaidStrategyImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/strategy/command/impl/ListAllBillsNotPaidStrategyImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/strategy/command/impl/PingStrategyImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/strategy/command/impl/PingStrategyImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/strategy/command/impl/PongStrategyImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/strategy/command/impl/PongStrategyImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/strategy/command/impl/RegisterBillStrategyImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/strategy/command/impl/RegisterBillStrategyImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/dmaiolli/billreminder/BillReminderApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/br/com/dmaiolli/billreminder/BillReminderApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/dmaiolli/billreminder/MessageListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/dmaiolli/billreminder/strategies/command/DiscordCommandEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/dmaiolli/billreminder/strategies/command/DiscordCommandStrategy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/dmaiolli/billreminder/strategies/command/PingStrategy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/dmaiolli/billreminder/strategies/command/PongStrategy.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +68,8 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -57,19 +77,20 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="br.com.dmaiolli.billreminder.strategies.command" />
       <recent name="br.com.dmaiolli.billreminder.model" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MessageListener">
+  <component name="RunManager" selected="Application.BillReminderApplication">
     <configuration name="BillReminderApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="br.com.dmaiolli.billreminder.BillReminderApplication" />
       <module name="bill-reminder" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="br.com.dmaiolli.billreminder.*" />
+          <option name="PATTERN" value="br.com.dmaiolli.billreminder.discord.listener.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -78,11 +99,11 @@
       </method>
     </configuration>
     <configuration name="MessageListener" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="br.com.dmaiolli.billreminder.MessageListener" />
+      <option name="MAIN_CLASS_NAME" value="br.com.dmaiolli.billreminder.discord.listener.MessageListener" />
       <module name="bill-reminder" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="br.com.dmaiolli.billreminder.*" />
+          <option name="PATTERN" value="br.com.dmaiolli.billreminder.discord.listener.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -92,8 +113,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MessageListener" />
         <item itemvalue="Application.BillReminderApplication" />
+        <item itemvalue="Application.MessageListener" />
       </list>
     </recent_temporary>
   </component>
@@ -119,15 +140,29 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Refactoring and applying strategy" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring and applying strategy" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/MessageListener.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="8" />
+          <url>file://$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/discord/listener/MessageListener.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/br/com/dmaiolli/billreminder/strategy/command/impl/ListAllBillsNotPaidStrategyImpl.java</url>
+          <line>18</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/bill_reminder$BillReminderApplication.ic" NAME="BillReminderApplication Coverage Results" MODIFIED="1647117878152" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>br.com.dmaiolli.billreminder.discord.listener.*</FILTER>
+    </SUITE>
   </component>
 </project>

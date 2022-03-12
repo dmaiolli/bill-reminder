@@ -1,11 +1,8 @@
-package br.com.dmaiolli.billreminder.strategies.command;
-
-import org.springframework.stereotype.Component;
+package br.com.dmaiolli.billreminder.strategy.command;
 
 /**
  * Common strategy for all Discord commands
  */
-@Component
 public interface DiscordCommandStrategy {
 
     String messageToSend();

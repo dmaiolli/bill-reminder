@@ -4,7 +4,6 @@ import br.com.dmaiolli.billreminder.exception.BillNotFoundException;
 import br.com.dmaiolli.billreminder.model.Bill;
 import br.com.dmaiolli.billreminder.model.BillType;
 import br.com.dmaiolli.billreminder.repository.BillRepository;
-import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +23,11 @@ public class BillService {
     }
 
     public List<Bill> findByBillTypeAndBillIsNotPaid(BillType billType) {
-        return billRepository.findAllByBillTypeAndIsNotPaid(billType);
+        return billRepository.findAllByBillTypeAndIsPaidFalse(billType);
+    }
+
+    public List<Bill> findAllBillIsNotPaid() {
+        return billRepository.findAllIsNotPaid();
     }
 
     public Bill findById(Long id) {
