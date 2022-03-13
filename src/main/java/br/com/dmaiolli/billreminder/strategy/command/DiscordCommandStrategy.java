@@ -5,6 +5,9 @@ package br.com.dmaiolli.billreminder.strategy.command;
  */
 public interface DiscordCommandStrategy {
 
-    String messageToSend();
+    String execute();
+
+    DiscordCommandEnum commandType();
+
 
 }

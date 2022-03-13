@@ -1,17 +1,19 @@
 package br.com.dmaiolli.billreminder.strategy.command.impl;
 
-import br.com.dmaiolli.billreminder.service.BillService;
+import br.com.dmaiolli.billreminder.strategy.command.DiscordCommandEnum;
 import br.com.dmaiolli.billreminder.strategy.command.DiscordCommandStrategy;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RegisterBillStrategyImpl implements DiscordCommandStrategy {
 
-    // TODO - Think some way to use constructor injection here
-    @Autowired
-    private BillService billService;
+    @Override
+    public String execute() {
+        return null;
+    }
 
     @Override
-    public String messageToSend() {
-        return null;
+    public DiscordCommandEnum commandType() {
+        return DiscordCommandEnum.REGISTER_BILL;
     }
 }

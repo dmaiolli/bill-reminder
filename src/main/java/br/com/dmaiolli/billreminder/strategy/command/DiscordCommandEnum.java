@@ -1,29 +1,19 @@
 package br.com.dmaiolli.billreminder.strategy.command;
 
 import br.com.dmaiolli.billreminder.exception.StrategyNotFoundException;
-import br.com.dmaiolli.billreminder.strategy.command.impl.ListAllBillsNotPaidStrategyImpl;
-import br.com.dmaiolli.billreminder.strategy.command.impl.PingStrategyImpl;
-import br.com.dmaiolli.billreminder.strategy.command.impl.PongStrategyImpl;
-import br.com.dmaiolli.billreminder.strategy.command.impl.RegisterBillStrategyImpl;
 
 import java.util.Arrays;
 
 public enum DiscordCommandEnum {
-    PING("!Ping", new PingStrategyImpl()),
-    PONG("!Pong", new PongStrategyImpl()),
-    REGISTER_BILL("!register", new RegisterBillStrategyImpl()),
-    LIST_ALL_NON_PAID("!nonpaid", new ListAllBillsNotPaidStrategyImpl());
+    PING("!Ping"),
+    PONG("!Pong"),
+    REGISTER_BILL("!register"),
+    LIST_ALL_NON_PAID("!nonpaid");
 
     private final String command;
-    private final DiscordCommandStrategy strategyClass;
 
-    DiscordCommandEnum(String command, DiscordCommandStrategy classe) {
+    DiscordCommandEnum(String command) {
         this.command = command;
-        this.strategyClass = classe;
-    }
-
-    public DiscordCommandStrategy getStrategyClass() {
-        return strategyClass;
     }
 
     public String getCommand() {

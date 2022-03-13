@@ -7,21 +7,25 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.utils.Compression;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import javax.annotation.PostConstruct;
-import javax.security.auth.login.LoginException;
+@SpringBootApplication(scanBasePackages = { "br.com.dmaiolli" })
+public class BillReminderApplication implements CommandLineRunner {
 
-@SpringBootApplication
-public class BillReminderApplication {
+	private final MessageListener messageListener;
+
+	public BillReminderApplication(MessageListener messageListener) {
+		this.messageListener = messageListener;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(BillReminderApplication.class, args);
 	}
 
-	@PostConstruct
-	public void initJDA() throws LoginException {
+	@Override
+	public void run(String... args) throws Exception {
 		Dotenv dotenv = Dotenv.load();
 		JDABuilder jdaBuilder = JDABuilder.createDefault(dotenv.get("DISCORD_BOT_KEY"));
 
@@ -35,7 +39,6 @@ public class BillReminderApplication {
 		jdaBuilder.setActivity(Activity.watching("TV"));
 
 		JDA jda = jdaBuilder.build();
-		jda.addEventListener(new MessageListener());
+		jda.addEventListener(messageListener);
 	}
-
 }

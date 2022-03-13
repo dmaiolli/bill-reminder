@@ -1,36 +1,39 @@
 package br.com.dmaiolli.billreminder.discord.listener;
 
-import br.com.dmaiolli.billreminder.service.BillService;
 import br.com.dmaiolli.billreminder.strategy.command.DiscordCommandEnum;
+import br.com.dmaiolli.billreminder.strategy.command.DiscordCommandStrategy;
+import br.com.dmaiolli.billreminder.strategy.command.factory.DiscordCommandFactory;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Objects;
 
 @Component
 public class MessageListener extends ListenerAdapter {
 
-    @Autowired
-    private BillService billService;
+    private static final String BOT_ID = "952226502697705514";
+
+    private final DiscordCommandFactory discordCommandFactory;
+
+    public MessageListener(DiscordCommandFactory discordCommandFactory) {
+        this.discordCommandFactory = discordCommandFactory;
+    }
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        Message message = event.getMessage();
-        String messageToSend;
-        DiscordCommandEnum commandStrategyValue = DiscordCommandEnum.findEnumByCommand(message.getContentDisplay());
-
-        if(Objects.isNull(commandStrategyValue)) {
-            messageToSend = "Comando não encontrado";
-        } else {
-            messageToSend = commandStrategyValue.getStrategyClass().messageToSend();
+        if(event.getAuthor().getId().equals(BOT_ID)) {
+            return;
         }
+        Message message = event.getMessage();
+        String messageToSend = "";
 
+        DiscordCommandStrategy discordCommandStrategy = discordCommandFactory.
+                getStrategyCommandFor(DiscordCommandEnum.findEnumByCommand(message.getContentDisplay()));
+
+        messageToSend = discordCommandStrategy.execute();
         MessageChannel messageChannel = event.getChannel();
         messageChannel.sendMessage(messageToSend).queue();
     }
