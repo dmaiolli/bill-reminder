@@ -14,11 +14,11 @@ import java.awt.*;
 import java.util.List;
 
 @Component
-public class RegisterNewAccountImpl implements DiscordCommandStrategy {
+public class RegisterNewAccountStrategyImpl implements DiscordCommandStrategy {
 
     private final UserAccountService userAccountService;
 
-    public RegisterNewAccountImpl(UserAccountService userAccountService) {
+    public RegisterNewAccountStrategyImpl(UserAccountService userAccountService) {
         this.userAccountService = userAccountService;
     }
 
