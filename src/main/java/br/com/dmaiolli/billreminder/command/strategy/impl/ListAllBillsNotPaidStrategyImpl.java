@@ -2,7 +2,6 @@ package br.com.dmaiolli.billreminder.command.strategy.impl;
 
 import br.com.dmaiolli.billreminder.command.CommandSender;
 import br.com.dmaiolli.billreminder.model.Bill;
-import br.com.dmaiolli.billreminder.model.BillType;
 import br.com.dmaiolli.billreminder.service.BillService;
 import br.com.dmaiolli.billreminder.command.strategy.DiscordCommandEnum;
 import br.com.dmaiolli.billreminder.command.strategy.DiscordCommandStrategy;
@@ -40,7 +39,7 @@ public class ListAllBillsNotPaidStrategyImpl implements DiscordCommandStrategy {
 
     public MessageEmbed buildEmbedMessage(Bill billNotPaid) {
         return new EmbedBuilder()
-                .setColor(Color.decode("#2b2b2b"))
+                .setColor(Color.RED)
                 .addField("Data de vencimento", DateUtil.dateFormatter(billNotPaid.getDueDate()), true)
                 .addField("Tipo de conta", billNotPaid.getBillType().name(), true)
                 .addField("Responsável", billNotPaid.getResponsible().name(), true)

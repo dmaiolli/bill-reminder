@@ -35,7 +35,7 @@ public class MessageListener extends ListenerAdapter {
         DiscordCommandStrategy discordCommandStrategy = discordCommandFactory.
                 getStrategyCommandFor(DiscordCommandEnum.findEnumByCommand(message.getContentDisplay()));
 
-        CommandSender commandSender = new CommandSender(event.getChannel(), messageComponent);
+        CommandSender commandSender = new CommandSender(event.getChannel(), messageComponent, event.getAuthor());
         discordCommandStrategy.execute(commandSender);
     }
 

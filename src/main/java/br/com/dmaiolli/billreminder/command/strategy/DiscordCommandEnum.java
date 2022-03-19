@@ -7,8 +7,9 @@ import java.util.Arrays;
 public enum DiscordCommandEnum {
     PING("!Ping"),
     PONG("!Pong"),
-    REGISTER_BILL("!register"),
-    LIST_ALL_NON_PAID("!nonpaid");
+    REGISTER_BILL("!registerBill"),
+    LIST_ALL_NON_PAID("!nonpaid"),
+    REGISTER_ACCOUNT("!register");
 
     private final String command;
 

@@ -1,9 +1,0 @@
-
-V	java:S125+"<This block of commented-out lines of code should be removed.(ÂÕüÿÿÿÿ
-]
-java:S1128	"ARemove this unused import 'net.dv8tion.jda.api.entities.Channel'.(‰â†8ˆ®ìû÷/
-\
-java:S1128
-"?Remove this unused import 'net.dv8tion.jda.api.entities.Emote'.(Ëìû©8ˆ®ìû÷/
-U
-java:S1068":Remove this unused "discordCommandStrategy" private field.(Ÿ€‰Ùúÿÿÿÿ
