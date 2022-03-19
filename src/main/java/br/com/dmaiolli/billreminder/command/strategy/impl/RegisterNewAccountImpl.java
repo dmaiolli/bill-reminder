@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
+import java.util.List;
 
 @Component
 public class RegisterNewAccountImpl implements DiscordCommandStrategy {
@@ -22,7 +23,7 @@ public class RegisterNewAccountImpl implements DiscordCommandStrategy {
     }
 
     @Override
-    public void execute(CommandSender commandSender) {
+    public void execute(CommandSender commandSender, List<String> args) {
         Long userId = commandSender.getJdaUser().getIdLong();
 
         boolean isUserAlreadyExists = userAccountService.accountAlreadyExistsById(userId);

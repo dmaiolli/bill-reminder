@@ -1,6 +1,7 @@
 package br.com.dmaiolli.billreminder.command;
 
 import br.com.dmaiolli.billreminder.component.MessageComponent;
+import br.com.dmaiolli.billreminder.model.UserAccount;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
@@ -33,5 +34,12 @@ public class CommandSender {
 
     public User getJdaUser() {
         return this.userAccount;
+    }
+
+    public UserAccount getUserAccount() {
+        return new UserAccount.Builder()
+                .withId(this.userAccount.getIdLong())
+                .withName(this.userAccount.getName())
+                .build();
     }
 }

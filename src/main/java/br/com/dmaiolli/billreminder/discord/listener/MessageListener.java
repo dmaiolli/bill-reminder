@@ -6,13 +6,16 @@ import br.com.dmaiolli.billreminder.command.strategy.DiscordCommandEnum;
 import br.com.dmaiolli.billreminder.command.strategy.DiscordCommandStrategy;
 import br.com.dmaiolli.billreminder.command.strategy.factory.DiscordCommandFactory;
 import br.com.dmaiolli.billreminder.component.MessageComponent;
+import br.com.dmaiolli.billreminder.util.ArrayUtil;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
+import java.awt.*;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -38,24 +41,30 @@ public class MessageListener extends ListenerAdapter {
         }
         Message message = event.getMessage();
 
+        List<String> args = Arrays.stream(message.getContentRaw().split(" ")).collect(Collectors.toList());
+
         DiscordCommandStrategy discordCommandStrategy = discordCommandFactory.
-                getStrategyCommandFor(DiscordCommandEnum.findEnumByCommand(message.getContentDisplay()));
+                getStrategyCommandFor(DiscordCommandEnum.findEnumByCommand(ArrayUtil.removeAndReturnArrayElement(args, 0)));
 
         CommandSender commandSender = new CommandSender(event.getChannel(), messageComponent, event.getAuthor());
 
-        Method[] methods = discordCommandStrategy.getClass().getMethods();
-        for(Method method : methods) {
+        for(Method method : discordCommandStrategy.getClass().getDeclaredMethods()) {
             if(method.isAnnotationPresent(CommandBody.class)) {
                 CommandBody commandBody = method.getAnnotation(CommandBody.class);
+
+                if(args.size() < commandBody.minArguments() || args.size() > commandBody.maxArguments()) {
+                    String usage = commandBody.value() + " " + commandBody.usage();
+                    MessageEmbed messageEmbed = new EmbedBuilder()
+                            .setColor(Color.RED)
+                            .addField("Argumentos inválidos", usage, true)
+                            .build();
+
+                    commandSender.sendEmbedMessage(messageEmbed);
+                    return;
+                }
             }
         }
 
-        List<String> args = Arrays.stream(event.getMessage().getContentRaw().split(" ")).skip(1).collect(Collectors.toList());
-
-        discordCommandStrategy.execute(commandSender);
-    }
-
-    public static void sendMessage(String message, TextChannel textChannel) {
-        textChannel.sendMessage(message).queue();
+        discordCommandStrategy.execute(commandSender, args);
     }
 }

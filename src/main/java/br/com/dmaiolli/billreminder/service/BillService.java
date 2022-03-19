@@ -48,4 +48,8 @@ public class BillService {
         billRepository.save(billToSetPaid);
     }
 
+    public void registerNewBill(Bill bill) {
+        billRepository.save(bill);
+    }
+
 }

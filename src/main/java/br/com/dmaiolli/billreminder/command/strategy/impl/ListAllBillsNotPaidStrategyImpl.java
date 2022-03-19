@@ -23,7 +23,7 @@ public class ListAllBillsNotPaidStrategyImpl implements DiscordCommandStrategy {
     }
 
     @Override
-    public void execute(CommandSender commandSender) {
+    public void execute(CommandSender commandSender, List<String> args) {
         List<Bill> billsNotPaid = billService.findAllBillIsNotPaid();
 
         for(Bill bill : billsNotPaid) {
