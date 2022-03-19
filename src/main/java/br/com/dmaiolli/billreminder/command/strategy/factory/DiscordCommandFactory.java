@@ -1,8 +1,8 @@
-package br.com.dmaiolli.billreminder.strategy.command.factory;
+package br.com.dmaiolli.billreminder.command.strategy.factory;
 
 import br.com.dmaiolli.billreminder.exception.StrategyNotFoundException;
-import br.com.dmaiolli.billreminder.strategy.command.DiscordCommandEnum;
-import br.com.dmaiolli.billreminder.strategy.command.DiscordCommandStrategy;
+import br.com.dmaiolli.billreminder.command.strategy.DiscordCommandEnum;
+import br.com.dmaiolli.billreminder.command.strategy.DiscordCommandStrategy;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

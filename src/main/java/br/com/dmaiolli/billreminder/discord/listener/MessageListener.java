@@ -1,10 +1,11 @@
 package br.com.dmaiolli.billreminder.discord.listener;
 
-import br.com.dmaiolli.billreminder.strategy.command.DiscordCommandEnum;
-import br.com.dmaiolli.billreminder.strategy.command.DiscordCommandStrategy;
-import br.com.dmaiolli.billreminder.strategy.command.factory.DiscordCommandFactory;
+import br.com.dmaiolli.billreminder.command.CommandSender;
+import br.com.dmaiolli.billreminder.command.strategy.DiscordCommandEnum;
+import br.com.dmaiolli.billreminder.command.strategy.DiscordCommandStrategy;
+import br.com.dmaiolli.billreminder.command.strategy.factory.DiscordCommandFactory;
+import br.com.dmaiolli.billreminder.component.MessageComponent;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -17,9 +18,11 @@ public class MessageListener extends ListenerAdapter {
     private static final String BOT_ID = "952226502697705514";
 
     private final DiscordCommandFactory discordCommandFactory;
+    private final MessageComponent messageComponent;
 
-    public MessageListener(DiscordCommandFactory discordCommandFactory) {
+    public MessageListener(DiscordCommandFactory discordCommandFactory, MessageComponent messageComponent) {
         this.discordCommandFactory = discordCommandFactory;
+        this.messageComponent = messageComponent;
     }
 
     @Override
@@ -28,14 +31,12 @@ public class MessageListener extends ListenerAdapter {
             return;
         }
         Message message = event.getMessage();
-        String messageToSend = "";
 
         DiscordCommandStrategy discordCommandStrategy = discordCommandFactory.
                 getStrategyCommandFor(DiscordCommandEnum.findEnumByCommand(message.getContentDisplay()));
 
-        messageToSend = discordCommandStrategy.execute();
-        MessageChannel messageChannel = event.getChannel();
-        messageChannel.sendMessage(messageToSend).queue();
+        CommandSender commandSender = new CommandSender(event.getChannel(), messageComponent);
+        discordCommandStrategy.execute(commandSender);
     }
 
     public static void sendMessage(String message, TextChannel textChannel) {

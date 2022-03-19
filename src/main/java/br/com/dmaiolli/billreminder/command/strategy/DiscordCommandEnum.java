@@ -1,4 +1,4 @@
-package br.com.dmaiolli.billreminder.strategy.command;
+package br.com.dmaiolli.billreminder.command.strategy;
 
 import br.com.dmaiolli.billreminder.exception.StrategyNotFoundException;
 
