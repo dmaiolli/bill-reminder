@@ -5,11 +5,14 @@ import br.com.dmaiolli.billreminder.command.strategy.DiscordCommandEnum;
 import br.com.dmaiolli.billreminder.command.strategy.DiscordCommandStrategy;
 import br.com.dmaiolli.billreminder.model.UserAccount;
 import br.com.dmaiolli.billreminder.service.UserAccountService;
+import br.com.dmaiolli.billreminder.util.DateUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import org.springframework.stereotype.Component;
 
 import java.awt.*;
 
+@Component
 public class RegisterNewAccountImpl implements DiscordCommandStrategy {
 
     private final UserAccountService userAccountService;
@@ -25,11 +28,9 @@ public class RegisterNewAccountImpl implements DiscordCommandStrategy {
         boolean isUserAlreadyExists = userAccountService.accountAlreadyExistsById(userId);
 
         if(isUserAlreadyExists) {
-            String footer = commandSender.getMessage("already-exists");
-
             MessageEmbed messageEmbed = new EmbedBuilder()
                     .setColor(Color.RED)
-                    .setFooter(footer, null)
+                    .setFooter("Essa conta já existe", null)
                     .build();
 
             commandSender.sendEmbedMessage(messageEmbed);
@@ -42,17 +43,12 @@ public class RegisterNewAccountImpl implements DiscordCommandStrategy {
                 .build();
         userAccountService.registerNewAccount(userAccount);
 
-        String title = commandSender.getMessage("successfully-registered");
-        String nickname = commandSender.getMessage("nickname");
-        String identifier = commandSender.getMessage("identifier");
-        String date = commandSender.getMessage("date");
-
         MessageEmbed messageEmbed = new EmbedBuilder()
                 .setColor(Color.GREEN)
-                .setTitle(title)
-                .addField(nickname, userAccount.getName(), true)
-                .addField(identifier, userAccount.getId().toString(), true)
-                .addField(date, userAccount.getRegistrationDate().toString(), true)
+                .setTitle("Registrado com sucesso")
+                .addField("Username", userAccount.getName(), true)
+                .addField("Identifier", userAccount.getId().toString(), true)
+                .addField("Data de registro", DateUtil.dateFormatter(userAccount.getRegistrationDate()), true)
                 .build();
 
         commandSender.sendEmbedMessage(messageEmbed);
