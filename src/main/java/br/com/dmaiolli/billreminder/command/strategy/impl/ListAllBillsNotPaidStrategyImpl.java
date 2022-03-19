@@ -39,12 +39,12 @@ public class ListAllBillsNotPaidStrategyImpl implements DiscordCommandStrategy {
 
     public MessageEmbed buildEmbedMessage(Bill billNotPaid) {
         return new EmbedBuilder()
-                .setColor(Color.RED)
+                .setColor(Color.YELLOW)
+                .setTitle("CONTA PERTO DO VENCIMENTO")
                 .addField("Data de vencimento", DateUtil.dateFormatter(billNotPaid.getDueDate()), true)
                 .addField("Tipo de conta", billNotPaid.getBillType().name(), true)
                 .addField("Responsável", billNotPaid.getResponsible().name(), true)
                 .addField("Menção", "<@522189090599206915>", true)
-                .setTitle("CONTA PERTO DO VENCIMENTO")
                 .build();
     }
 }

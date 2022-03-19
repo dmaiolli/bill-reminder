@@ -1,5 +1,6 @@
 package br.com.dmaiolli.billreminder.discord.listener;
 
+import br.com.dmaiolli.billreminder.annotation.CommandBody;
 import br.com.dmaiolli.billreminder.command.CommandSender;
 import br.com.dmaiolli.billreminder.command.strategy.DiscordCommandEnum;
 import br.com.dmaiolli.billreminder.command.strategy.DiscordCommandStrategy;
@@ -11,6 +12,11 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class MessageListener extends ListenerAdapter {
@@ -36,6 +42,16 @@ public class MessageListener extends ListenerAdapter {
                 getStrategyCommandFor(DiscordCommandEnum.findEnumByCommand(message.getContentDisplay()));
 
         CommandSender commandSender = new CommandSender(event.getChannel(), messageComponent, event.getAuthor());
+
+        Method[] methods = discordCommandStrategy.getClass().getMethods();
+        for(Method method : methods) {
+            if(method.isAnnotationPresent(CommandBody.class)) {
+                CommandBody commandBody = method.getAnnotation(CommandBody.class);
+            }
+        }
+
+        List<String> args = Arrays.stream(event.getMessage().getContentRaw().split(" ")).skip(1).collect(Collectors.toList());
+
         discordCommandStrategy.execute(commandSender);
     }
 
