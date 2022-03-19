@@ -9,7 +9,8 @@ public enum DiscordCommandEnum {
     PONG("!Pong"),
     REGISTER_BILL("!registerBill"),
     LIST_ALL_NON_PAID("!nonpaid"),
-    REGISTER_ACCOUNT("!register");
+    REGISTER_ACCOUNT("!register"),
+    SET_BILL_PAID("!setPaid");
 
     private final String command;
 

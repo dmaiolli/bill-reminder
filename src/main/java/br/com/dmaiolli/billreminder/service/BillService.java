@@ -1,5 +1,6 @@
 package br.com.dmaiolli.billreminder.service;
 
+import br.com.dmaiolli.billreminder.exception.BillAlreadyPaidException;
 import br.com.dmaiolli.billreminder.exception.BillNotFoundException;
 import br.com.dmaiolli.billreminder.model.Bill;
 import br.com.dmaiolli.billreminder.model.BillType;
@@ -40,12 +41,16 @@ public class BillService {
         return optionalBill.get();
     }
 
-    public void setBillPaid(Long id) {
+    public Bill setBillPaid(Long id) throws BillAlreadyPaidException{
         Bill billToSetPaid = this.findById(id);
+
+        if(billToSetPaid.isPaid()) {
+            throw new BillAlreadyPaidException();
+        }
 
         billToSetPaid.setPaid(true);
 
-        billRepository.save(billToSetPaid);
+        return billRepository.save(billToSetPaid);
     }
 
     public void registerNewBill(Bill bill) {
